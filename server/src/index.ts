@@ -1,12 +1,19 @@
 import "dotenv/config";
 import express from "express";
+import passport from "passport";
+import "./config/passport.js";
 import { prisma } from "./lib/prisma";
+import authRoutes from "./routes/auth.routes.js";
 
 const app = express();
 
 app.use(express.json());
 
+app.use(passport.initialize());
+
 const PORT = process.env.PORT || 3001;
+
+app.use("/auth", authRoutes);
 
 app.get("/health", async (req, res) => {
   try {
