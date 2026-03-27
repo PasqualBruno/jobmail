@@ -18,8 +18,23 @@ model User {
   accessToken  String? @db.Text
   refreshToken String? @db.Text
 
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  templates Template[]
+
+  @@map("users")
+}
+
+model Template {
+  id      String @id @default(uuid())
+  title   String
+  content String @db.Text
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("templates")
 }

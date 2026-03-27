@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { IUser } from '../../types/auth.interfaces';
+import type { IUser } from '../../../types/auth.interfaces';
 
 
 export function Profile() {
