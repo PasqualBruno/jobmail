@@ -69,7 +69,7 @@ export function Profile() {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <section style={{ marginBottom: '40px', borderBottom: '1px solid #eee', pb: '20px' }}>
+      <section style={{ marginBottom: '40px', borderBottom: '1px solid #eee',  }}>
         <h1>Bem-vindo, {user?.name ?? 'Usuário'}</h1>
         {user?.avatarUrl && (
           <img 
