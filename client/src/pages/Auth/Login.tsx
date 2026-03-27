@@ -1,7 +1,8 @@
 export function Login() {
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
+
   const handleGoogleLogin = () => {
-    // Redireciona para o seu servidor Node
-    window.location.href = 'http://localhost:3001/auth/google';
+    window.location.href = `${apiBaseUrl}/auth/google`;
   };
 
   return (
