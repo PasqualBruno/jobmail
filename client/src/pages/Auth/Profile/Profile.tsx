@@ -10,11 +10,14 @@ export function Profile() {
   const [jobName, setJobName] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [feedback, setFeedback] = useState('');
+    const apiBaseUrl = import.meta.env.VITE_API_URL;
+
+
 
   useEffect(() => {
     const token = localStorage.getItem('@jobmail:token');
 
-    fetch('http://localhost:3001/auth/me', {
+    fetch(`${apiBaseUrl}/auth/me`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -34,7 +37,7 @@ export function Profile() {
     const token = localStorage.getItem('@jobmail:token');
 
     try {
-      const response = await fetch('http://localhost:3001/mail/send', {
+      const response = await fetch(`${apiBaseUrl}/mail/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
