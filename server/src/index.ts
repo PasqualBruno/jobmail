@@ -3,6 +3,7 @@ import express from "express";
 import passport from "passport";
 import "./config/passport.js";
 import authRoutes from "./routes/auth.routes.js";
+import mailRoutes from "./routes/mail.routes.js";
 import cors from 'cors';
 import { prisma } from "./lib/prisma.js";
 
@@ -13,13 +14,17 @@ app.use(express.json());
 
 app.use(passport.initialize());
 
+
+
 app.use(cors({
   origin: process.env.FRONTEND_URL
+  
 }))
 
 const PORT = process.env.PORT || 3001;
 
 app.use("/auth", authRoutes);
+app.use("/mail", mailRoutes);
 
 app.get("/health", async (req, res) => {
   try {

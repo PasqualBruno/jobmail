@@ -8,6 +8,11 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: "/auth/google/callback",
+      scope: [
+        'profile', 
+        'email', 
+        'https://www.googleapis.com/auth/gmail.send' 
+      ],
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log({profile})

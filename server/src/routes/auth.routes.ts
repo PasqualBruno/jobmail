@@ -17,7 +17,7 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { session: false }),
+  passport.authenticate("google", {scope: ['profile', 'email','https://www.googleapis.com/auth/gmail.send'], session: false }),
   (req, res) => {
     const user = req.user as any;
 
