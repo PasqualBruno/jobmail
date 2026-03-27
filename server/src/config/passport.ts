@@ -10,6 +10,8 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log({profile})
+
       try {
         const user = await prisma.user.upsert({
           where: { googleId: profile.id },
