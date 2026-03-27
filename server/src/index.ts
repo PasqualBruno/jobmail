@@ -38,5 +38,5 @@ app.get("/health", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 JobMail Back-end rodando em http://localhost:${PORT}`);
+  console.log(`🚀 Servidor rodando na porta: ${PORT}`);
 });
