@@ -1,8 +1,8 @@
 import type { JSX } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthSuccess } from "./pages/Auth/AuthSuccess/AuthSuccess";
+import { Profile } from "./pages/Auth/Home/Home";
 import { Login } from "./pages/Auth/Login";
-import { Profile } from "./pages/Auth/Profile/Profile";
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const token = localStorage.getItem("@jobmail:token");
