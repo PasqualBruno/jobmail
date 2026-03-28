@@ -1,25 +1,25 @@
+import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import passport from "passport";
 import "./config/passport.js";
+import { prisma } from "./lib/prisma.js";
 import authRoutes from "./routes/auth.routes.js";
 import mailRoutes from "./routes/mail.routes.js";
-import cors from 'cors';
-import { prisma } from "./lib/prisma.js";
-
 
 const app = express();
+
+app.set("trust proxy", 1);
 
 app.use(express.json());
 
 app.use(passport.initialize());
 
-
-
-app.use(cors({
-  origin: process.env.FRONTEND_URL
-  
-}))
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+  }),
+);
 
 const PORT = process.env.PORT || 3001;
 
