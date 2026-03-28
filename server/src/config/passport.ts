@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 
 passport.use(
   new GoogleStrategy(
@@ -8,14 +8,10 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: "/auth/google/callback",
-      scope: [
-        'profile', 
-        'email', 
-        'https://www.googleapis.com/auth/gmail.send' 
-      ],
+      scope: ["profile", "email", "https://www.googleapis.com/auth/gmail.send"],
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log({profile})
+      console.log({ profile });
 
       try {
         const user = await prisma.user.upsert({
