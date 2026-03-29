@@ -36,7 +36,7 @@ const MainLayout = () => {
           if (!broken) setCollapsed(false);
         }}
         onCollapse={(value) => setCollapsed(value)}
-        style={{ backgroundColor: "#141414", padding: "12px 6px" }}
+        style={{ backgroundColor: "#141414", padding: "12px 0px" }}
       >
         <Menu
           mode="inline"

@@ -32,8 +32,9 @@ export default function App() {
             activeBarBorderWidth: 0,
           },
           Layout: {
-            siderBg: "none",
             headerBg: "none",
+            siderBg: "#000000",
+            triggerBg: "#141414",
           },
         },
       }}

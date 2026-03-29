@@ -1,13 +1,13 @@
-/* 1. Garante que a estrutura do navegador ocupe todo o espaço */
 html,
 body,
 #root {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #000000;
 }
 
-/* 2. Faz o Layout do Ant Design ter no mínimo a altura da tela */
 .root-layout {
-  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #000000;
 }
