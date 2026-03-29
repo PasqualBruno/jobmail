@@ -1,16 +1,13 @@
 import { Router } from "express";
+import { TemplateController } from "../controllers/template.controller.js";
 
 const router = Router();
+const templateController = new TemplateController();
 
-//CRUD
+router.post("/", templateController.create);
+router.get("/", templateController.list);
+router.get("/:id", templateController.findById);
+router.put("/:id", templateController.update);
+router.delete("/:id", templateController.delete);
 
-//create
-//Read all
-//Read by id
-//Update by id
-//Delete by id
-
-router.post("/", (req, res) => {
-  try {
-  } catch (error) {}
-});
+export default router;

@@ -4,7 +4,7 @@ import passport from "passport";
 import "./config/passport.js";
 import { HealthController } from "./controllers/health.controller.js";
 import authRoutes from "./routes/auth.routes.js";
-import mailRoutes from "./routes/mail.routes.js";
+import templateRoutes from "./routes/template.routes.js";
 
 const app = express();
 const healthController = new HealthController();
@@ -17,7 +17,7 @@ app.use(cors({ origin: process.env.FRONTEND_URL }));
 
 // Rotas
 app.use("/auth", authRoutes);
-app.use("/mail", mailRoutes);
+app.use("/templates", templateRoutes);
 
 app.get("/health", (req, res) => healthController.check(req, res));
 
