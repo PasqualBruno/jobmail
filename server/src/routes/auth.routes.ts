@@ -1,10 +1,11 @@
 import { Router } from "express";
-import jwt from "jsonwebtoken";
 import passport from "passport";
-import { prisma } from "../lib/prisma.js";
+
+import { AuthController } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
+const authController = new AuthController();
 
 router.get(
   "/google",
@@ -17,43 +18,10 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    scope: ["profile", "email", "https://www.googleapis.com/auth/gmail.send"],
-    session: false,
-  }),
-  (req, res) => {
-    const user = req.user as any;
-
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET!,
-      { expiresIn: "7d" },
-    );
-
-    res.redirect(`${process.env.FRONTEND_URL}/auth-success?token=${token}`);
-  },
+  passport.authenticate("google", { session: false }),
+  authController.googleCallback,
 );
 
-router.get("/me", authMiddleware, async (req: any, res) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.userId },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        avatarUrl: true,
-        createdAt: true,
-      },
-    });
-
-    if (!user) return res.status(404).json({ error: "Usuário não encontrado" });
-
-    console.log("Rota /me acessada por:", user.email);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: "Erro ao buscar dados" });
-  }
-});
+router.get("/me", authMiddleware, authController.me);
 
 export default router;
