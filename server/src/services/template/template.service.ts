@@ -1,7 +1,6 @@
-import { PrismaClient, Template } from "@prisma/client";
+import { Template } from "@prisma/client";
 import { CreateTemplateDTO, UpdatetemplateDTO } from "./template.dto.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../lib/prisma.js";
 
 export class TemplateService {
   async create(data: CreateTemplateDTO, userId: string): Promise<Template> {

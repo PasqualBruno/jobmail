@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { TemplateController } from "../controllers/template.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 const templateController = new TemplateController();
 
-router.post("/", templateController.create);
-router.get("/", templateController.list);
-router.get("/:id", templateController.findById);
-router.put("/:id", templateController.update);
-router.delete("/:id", templateController.delete);
+router.post("/", authMiddleware, templateController.create);
+router.get("/", authMiddleware, templateController.list);
+router.get("/:id", authMiddleware, templateController.findById);
+router.put("/:id", authMiddleware, templateController.update);
+router.delete("/:id", authMiddleware, templateController.delete);
 
 export default router;

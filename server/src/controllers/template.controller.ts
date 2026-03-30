@@ -11,7 +11,7 @@ export class TemplateController {
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
 
       if (!title || !content) {
-        return res.status(400).json({ error: "Campos obrigatórios ausentes." });
+        return res.status(400).json({ error: "" });
       }
 
       const template = await templateService.create(
