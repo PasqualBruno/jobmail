@@ -17,3 +17,11 @@ export type ITemplateUpdate = Partial<ITemplateCreate>;
 export interface ITemplateDelete {
   id: string;
 }
+
+
+
+export interface IApiResponse<T> {
+  message: string;
+  data: T; 
+}
+

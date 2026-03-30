@@ -5,12 +5,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import { templateService } from "../services/template.service";
+
 import type {
   ITemplate,
   ITemplateCreate,
   ITemplateUpdate,
 } from "../types/templates.interfaces";
+import { templateService } from "../services/template.service";
+import { message } from "antd";
 
 interface ITemplatesContext {
   templates: ITemplate[];
@@ -39,9 +41,9 @@ export const TemplateProvider = ({
   const fetchAll = useCallback(async () => {
     setIsLoadingTemplates(true);
     try {
-      const data = await templateService.listAll();
-      console.log(data);
-      setTemplates(data);
+      const response = await templateService.listAll();
+      console.log(response);
+      setTemplates(response.data);
     } catch (error) {
       console.error("Erro ao carregar a lista de templates:", error);
     } finally {
@@ -54,7 +56,16 @@ export const TemplateProvider = ({
   }, [fetchAll]);
 
   async function handleCreateTemplate(template: ITemplateCreate) {
-    throw new Error("Function not implemented.");
+    try {
+      setIsLoadingSubmitTemplate(true);
+      const response = await templateService.create(template);
+      message.success(response.message);
+    } catch (error) {
+      console.error("Erro ao criar template:", error);
+      message.error("Erro ao criar template");
+    } finally {
+      setIsLoadingSubmitTemplate(false);
+    }
   }
 
   async function handleUpdateTemplate(data: ITemplateUpdate) {

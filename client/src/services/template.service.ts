@@ -1,36 +1,27 @@
 import { templateRepository } from "../repositories/template.repository";
 import type {
+  IApiResponse,
   ITemplate,
   ITemplateCreate,
   ITemplateUpdate,
 } from "../types/templates.interfaces";
 
 class TemplateService {
-  // 1. Busca a lista completa
-  async listAll(): Promise<ITemplate[]> {
+  async listAll(): Promise<IApiResponse<ITemplate[]>> {
     return await templateRepository.findAll();
   }
 
-  // 2. Busca um único template por ID
-  //   async getById(id: string): Promise<ITemplate> {
-  //     return await templateRepository(id);
-  //   }
-
-  // 3. Cria um novo registro
-  async save(data: ITemplateCreate): Promise<ITemplate> {
+  async create(data: ITemplateCreate): Promise<IApiResponse<ITemplate>> {
     return await templateRepository.create(data);
   }
 
-  // 4. Atualiza um registro existente
-  async update(id: string, data: ITemplateUpdate): Promise<ITemplate> {
+  async update(id: string, data: ITemplateUpdate): Promise<IApiResponse<ITemplate>> {
     return await templateRepository.update(id, data);
   }
 
-  // 5. Deleta um registro
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<IApiResponse<void>> {
     return await templateRepository.delete(id);
   }
 }
 
-// Exporta uma instância única para o projeto todo usar
 export const templateService = new TemplateService();

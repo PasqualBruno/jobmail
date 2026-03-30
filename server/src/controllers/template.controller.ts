@@ -10,8 +10,8 @@ export class TemplateController {
 
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
 
-      if (!title || !content) {
-        return res.status(400).json({ error: "" });
+      if (!title || !content ) {
+        return res.status(400).json({ error: "Campos obrigatorios ausentes" });
       }
 
       const template = await templateService.create(
@@ -27,21 +27,19 @@ export class TemplateController {
       return res.status(500).json({ error: "Erro ao criar template" });
     }
   }
-
   async list(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
 
-      const templates = await templateService.findAll(req.user.id);
+      const data = await templateService.findAll(req.user.id);
       return res
         .status(200)
-        .json({ templates, message: "Templates listados com sucesso" });
+        .json({ data, message: "Templates listados com sucesso" });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Erro ao listar templates" });
     }
   }
-
   async findById(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
@@ -52,7 +50,7 @@ export class TemplateController {
       );
 
       if (!template) {
-        return res.status(404).json({ error: "Template nao encontrado" });
+        return res.status(404).json({ message: "Template nao encontrado" });
       }
 
       return res
@@ -63,7 +61,6 @@ export class TemplateController {
       return res.status(500).json({ error: "Erro ao buscar template" });
     }
   }
-
   async update(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
@@ -86,7 +83,6 @@ export class TemplateController {
       return res.status(500).json({ error: "Erro ao atualizar template" });
     }
   }
-
   async delete(req: Request, res: Response) {
     try {
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });

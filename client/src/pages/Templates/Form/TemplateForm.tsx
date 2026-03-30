@@ -1,101 +1,65 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+import { Button, Flex, Form, Input } from "antd";
+import TiptapEditor from "../../../components/common/TiptapEditor/TiptapEditor";
+import type { ITemplateCreate } from "../../../types/templates.interfaces";
+import { useTemplates } from "../../../hooks/useTemplates";
+import { useEffect, useState } from "react";
 
-type Props = {};
+interface TemplateFormProps {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const TemplateForm = (props: Props) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const TemplateForm = ({ setIsModalOpen }: TemplateFormProps) => {
+  const { handleCreateTemplate } = useTemplates();
+  const [form] = Form.useForm();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const values = Form.useWatch([], form);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-    // O console.log solicitado para validar o envio
-    console.log("Dados do Template:", {
-      title,
-      content, // HTML gerado pelo editor
-    });
-  };
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then(() => setIsFormValid(true))
+      .catch(() => setIsFormValid(false));
+  }, [values, form]);
 
-  // Configuração opcional da barra de ferramentas (toolbar)
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "clean"],
-    ],
-  };
+  async function handleSubmit(values: ITemplateCreate) {
+    if (!isFormValid) return;
+    handleCreateTemplate(values);
+    setIsModalOpen(false);
+  }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "40px auto", padding: "0 20px" }}>
-      <h2 style={{ marginBottom: "20px", color: "#333" }}>Novo Template</h2>
-
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "25px" }}
+    <Form form={form} onFinish={handleSubmit} layout="vertical">
+      <Form.Item
+        rules={[
+          { required: true, message: "O título é obrigatório" },
+          { min: 5, message: "O título deve ter pelo menos 5 caracteres" },
+        ]}
+        required
+        name="title"
+        label="Título"
       >
-        {/* Campo de Título */}
-        <div>
-          <label
-            style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}
-          >
-            Título do Template:
-          </label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Ex: Confirmação de Matrícula"
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-            }}
-            required
-          />
-        </div>
+        <Input placeholder="Título" />
+      </Form.Item>
+      <Form.Item
+        required
+        name="content"
+        label="Conteúdo"
+        tooltip="Conteúdo do template que será colocado no corpo do seu email"
+        rules={[{ required: true, message: "O conteúdo é obrigatório" }]}
+      >
+        <TiptapEditor charcount={50} />
+      </Form.Item>
 
-        {/* Campo de Editor Rico (HTML) */}
-        <div>
-          <label
-            style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}
-          >
-            Conteúdo do E-mail:
-          </label>
-          <div style={{ height: "350px", marginBottom: "50px" }}>
-            <ReactQuill
-              theme="snow"
-              value={content}
-              onChange={setContent}
-              modules={modules}
-              style={{ height: "100%" }}
-              placeholder="Escreva sua mensagem aqui..."
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            padding: "14px",
-            backgroundColor: "#2563eb",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "bold",
-            transition: "background 0.2s",
-          }}
-        >
-          Salvar Template
-        </button>
-      </form>
-    </div>
+      <Flex flex={1} gap={8} justify="end">
+        <Button onClick={() => setIsModalOpen(false)} type="default">
+          Cancelar
+        </Button>
+        <Button disabled={!isFormValid} type="primary" htmlType="submit">
+          Salvar
+        </Button>
+      </Flex>
+    </Form>
   );
 };
 

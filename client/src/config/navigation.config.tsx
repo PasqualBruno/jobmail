@@ -5,8 +5,9 @@ import {
   PaperPlaneTiltIcon,
   SignOutIcon,
 } from "@phosphor-icons/react";
-import { TemplateProvider } from "../hooks/useTemplates";
+
 import Templates from "../pages/Templates/Templates";
+import { TemplateProvider } from "../hooks/useTemplates";
 
 export type customMenuItem = {
   key: string;
@@ -41,7 +42,7 @@ export const menuItems: customMenuItem[] = [
   },
   {
     key: "/experience",
-    label: "Experiência Profissional",
+    label: "Experiências",
     icon: <BriefcaseIcon size={20} weight="regular" />,
     component: <div>Experience</div>,
   },
