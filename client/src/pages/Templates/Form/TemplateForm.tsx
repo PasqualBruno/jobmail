@@ -9,7 +9,7 @@ interface TemplateFormProps {
 }
 
 const TemplateForm = ({ setIsModalOpen }: TemplateFormProps) => {
-  const { handleCreateTemplate } = useTemplates();
+  const { handleCreateTemplate, isLoadingSubmitTemplate } = useTemplates();
   const [form] = Form.useForm();
 
   const values = Form.useWatch([], form);
@@ -52,10 +52,19 @@ const TemplateForm = ({ setIsModalOpen }: TemplateFormProps) => {
       </Form.Item>
 
       <Flex flex={1} gap={8} justify="end">
-        <Button onClick={() => setIsModalOpen(false)} type="default">
+        <Button
+          onClick={() => setIsModalOpen(false)}
+          type="default"
+          loading={isLoadingSubmitTemplate}
+        >
           Cancelar
         </Button>
-        <Button disabled={!isFormValid} type="primary" htmlType="submit">
+        <Button
+          disabled={!isFormValid}
+          type="primary"
+          htmlType="submit"
+          loading={isLoadingSubmitTemplate}
+        >
           Salvar
         </Button>
       </Flex>

@@ -6,11 +6,11 @@ import "./Template.css";
 
 import { useState } from "react";
 import TemplateForm from "./Form/TemplateForm";
-import modal from "antd/es/modal";
 
 const Templates = () => {
   const { templates, isLoadingTemplates } = useTemplates();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modal, contextHolder] = Modal.useModal();
 
   const showDeleteConfirm = (id: string) => {
     modal.confirm({
@@ -27,6 +27,7 @@ const Templates = () => {
 
   return (
     <Flex flex={1} vertical className="tempolate-page-container">
+      {contextHolder}
       <PageHeader
         title="Templates"
         subtitle="Registre os seus template que poderão ser usados nas suas candidaturas"

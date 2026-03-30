@@ -12,7 +12,7 @@ import type {
   ITemplateUpdate,
 } from "../types/templates.interfaces";
 import { templateService } from "../services/template.service";
-import { message } from "antd";
+import { Modal, message } from "antd";
 
 interface ITemplatesContext {
   templates: ITemplate[];
@@ -37,6 +37,7 @@ export const TemplateProvider = ({
   const [isLoadingTemplates, setIsLoadingTemplates] = useState<boolean>(true);
   const [isLoadingSubmitTemplate, setIsLoadingSubmitTemplate] =
     useState<boolean>(false);
+  const [modal, contextHolder] = Modal.useModal();
 
   const fetchAll = useCallback(async () => {
     setIsLoadingTemplates(true);
