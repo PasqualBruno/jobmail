@@ -61,7 +61,7 @@ export default function App() {
                       <Route
                         key={item.key?.toString()}
                         path={item.key?.toString()}
-                        element={<div>{item.label}</div>}
+                        element={item.component}
                       />
                     );
                   }
