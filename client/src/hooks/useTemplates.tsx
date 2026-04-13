@@ -20,7 +20,7 @@ interface ITemplatesContext {
   isLoadingSubmitTemplate: boolean;
 
   handleCreateTemplate: (template: ITemplateCreate) => void;
-  handleUpdateTemplate: (template: ITemplate) => void;
+  handleUpdateTemplate: (data: ITemplateUpdate, templateId: string) => void;
   handleDeleteTemplate: (id: string) => void;
 }
 
@@ -56,26 +56,61 @@ export const TemplateProvider = ({
     fetchAll();
   }, [fetchAll]);
 
-  async function handleCreateTemplate(template: ITemplateCreate) {
+  const handleCreateTemplate = useCallback(
+    async (template: ITemplateCreate) => {
+      try {
+        setIsLoadingSubmitTemplate(true);
+        const response = await templateService.create(template);
+        setTemplates((templates) => [...templates, response.data]);
+        message.success(response.message);
+      } catch (error) {
+        console.error("Erro ao criar template:", error);
+        message.error("Erro ao criar template");
+      } finally {
+        setIsLoadingSubmitTemplate(false);
+      }
+    },
+    [],
+  );
+
+  const handleUpdateTemplate = useCallback(
+    async (data: ITemplateUpdate, templateId: string) => {
+      try {
+        setIsLoadingSubmitTemplate(true);
+        const response = await templateService.update(templateId, data);
+
+        setTemplates((prevTemplates) =>
+          prevTemplates.map((template) =>
+            template.id === templateId ? response.data : template,
+          ),
+        );
+
+        message.success(response.message);
+      } catch (error) {
+        console.error("Erro ao atualizar template:", error);
+        message.error("Erro ao atualizar template");
+      } finally {
+        setIsLoadingSubmitTemplate(false);
+      }
+    },
+    [],
+  );
+
+  const handleDeleteTemplate = useCallback(async (id: string) => {
     try {
       setIsLoadingSubmitTemplate(true);
-      const response = await templateService.create(template);
+      const response = await templateService.remove(id);
+      setTemplates((templates) =>
+        templates.filter((template) => template.id !== id),
+      );
       message.success(response.message);
     } catch (error) {
-      console.error("Erro ao criar template:", error);
-      message.error("Erro ao criar template");
+      console.error("Erro ao deletar template:", error);
+      message.error("Erro ao deletar template");
     } finally {
       setIsLoadingSubmitTemplate(false);
     }
-  }
-
-  async function handleUpdateTemplate(data: ITemplateUpdate) {
-    throw new Error("Function not implemented.");
-  }
-
-  async function handleDeleteTemplate(id: string) {
-    throw new Error("Function not implemented.");
-  }
+  }, []);
 
   return (
     <TemplatesContext.Provider

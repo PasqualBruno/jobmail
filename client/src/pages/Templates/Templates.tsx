@@ -1,16 +1,26 @@
 import { Button, Card, Flex, List, Skeleton, Modal } from "antd";
 import PageHeader from "../../components/common/PageHeader/PageHeader";
 import { useTemplates } from "../../hooks/useTemplates";
-import { FilePlusIcon, TrashIcon } from "@phosphor-icons/react";
+import {
+  FilePlusIcon,
+  PencilSimpleIcon,
+  TrashIcon,
+} from "@phosphor-icons/react";
 import "./Template.css";
 
 import { useState } from "react";
 import TemplateForm from "./Form/TemplateForm";
+import type { ITemplate, TemplateMode } from "../../types/templates.interfaces";
 
 const Templates = () => {
-  const { templates, isLoadingTemplates } = useTemplates();
+  const { templates, isLoadingTemplates, handleDeleteTemplate } =
+    useTemplates();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modal, contextHolder] = Modal.useModal();
+  const [templateMode, setTemplateMode] = useState<TemplateMode>("create");
+  const [selectedTemplate, setSelectedTemplate] = useState<ITemplate | null>(
+    null,
+  );
 
   const showDeleteConfirm = (id: string) => {
     modal.confirm({
@@ -24,6 +34,12 @@ const Templates = () => {
       },
     });
   };
+
+  function handleUpdateTemplateClick(item: ITemplate): void {
+    setSelectedTemplate(item);
+    setTemplateMode("update");
+    setIsModalOpen(true);
+  }
 
   return (
     <Flex flex={1} vertical className="tempolate-page-container">
@@ -60,6 +76,12 @@ const Templates = () => {
                     <Flex gap={8}>
                       <Button
                         type="text"
+                        onClick={() => handleUpdateTemplateClick(item)}
+                      >
+                        <PencilSimpleIcon size={16} />
+                      </Button>
+                      <Button
+                        type="text"
                         onClick={() => showDeleteConfirm(item.id)}
                       >
                         <TrashIcon size={16} />
@@ -88,7 +110,11 @@ const Templates = () => {
         footer={null}
         destroyOnHidden
       >
-        <TemplateForm setIsModalOpen={setIsModalOpen} />
+        <TemplateForm
+          setIsModalOpen={setIsModalOpen}
+          mode={templateMode}
+          selectedTemplate={templateMode === "update" ? selectedTemplate : null}
+        />
       </Modal>
     </Flex>
   );

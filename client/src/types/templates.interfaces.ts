@@ -18,10 +18,9 @@ export interface ITemplateDelete {
   id: string;
 }
 
-
-
 export interface IApiResponse<T> {
   message: string;
-  data: T; 
+  data: T;
 }
 
+export type TemplateMode = "create" | "update";

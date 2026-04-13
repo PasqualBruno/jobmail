@@ -10,7 +10,7 @@ export class TemplateController {
 
       if (!req.user) return res.status(401).json({ error: "Não autorizado" });
 
-      if (!title || !content ) {
+      if (!title || !content) {
         return res.status(400).json({ error: "Campos obrigatorios ausentes" });
       }
 
@@ -21,7 +21,7 @@ export class TemplateController {
 
       return res
         .status(201)
-        .json({ template, message: "Template criado com sucesso" });
+        .json({ data: template, message: "Template criado com sucesso" });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Erro ao criar template" });
@@ -77,7 +77,7 @@ export class TemplateController {
 
       return res
         .status(200)
-        .json({ template, message: "Template atualizado com sucesso" });
+        .json({ data: template, message: "Template atualizado com sucesso" });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Erro ao atualizar template" });

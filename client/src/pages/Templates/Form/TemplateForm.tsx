@@ -1,16 +1,39 @@
 import { Button, Flex, Form, Input } from "antd";
 import TiptapEditor from "../../../components/common/TiptapEditor/TiptapEditor";
-import type { ITemplateCreate } from "../../../types/templates.interfaces";
+import type {
+  ITemplate,
+  ITemplateCreate,
+} from "../../../types/templates.interfaces";
 import { useTemplates } from "../../../hooks/useTemplates";
 import { useEffect, useState } from "react";
 
 interface TemplateFormProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  mode: "create" | "update";
+  selectedTemplate?: ITemplate | null;
 }
 
-const TemplateForm = ({ setIsModalOpen }: TemplateFormProps) => {
-  const { handleCreateTemplate, isLoadingSubmitTemplate } = useTemplates();
+const TemplateForm = ({
+  setIsModalOpen,
+  mode,
+  selectedTemplate,
+}: TemplateFormProps) => {
+  const {
+    handleCreateTemplate,
+    isLoadingSubmitTemplate,
+    handleUpdateTemplate,
+  } = useTemplates();
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.resetFields();
+  }, [form]);
+
+  useEffect(() => {
+    if (mode === "update" && selectedTemplate) {
+      form.setFieldsValue(selectedTemplate);
+    }
+  }, [selectedTemplate, form]);
 
   const values = Form.useWatch([], form);
   const [isFormValid, setIsFormValid] = useState(false);
@@ -24,7 +47,11 @@ const TemplateForm = ({ setIsModalOpen }: TemplateFormProps) => {
 
   async function handleSubmit(values: ITemplateCreate) {
     if (!isFormValid) return;
-    handleCreateTemplate(values);
+    if (mode === "update") {
+      handleUpdateTemplate(values, String(selectedTemplate?.id));
+    } else if (mode === "create") {
+      handleCreateTemplate(values);
+    }
     setIsModalOpen(false);
   }
 
