@@ -8,6 +8,7 @@ import {
 
 import Templates from "../pages/Templates/Templates";
 import { TemplateProvider } from "../hooks/useTemplates";
+import Resumes from "../pages/Resumes/Resumes";
 
 export type customMenuItem = {
   key: string;
@@ -38,7 +39,7 @@ export const menuItems: customMenuItem[] = [
     key: "/resumes",
     label: "Currículos",
     icon: <FileTextIcon size={20} weight="regular" />,
-    component: <div>Resumes</div>,
+    component: <Resumes />,
   },
   {
     key: "/experience",

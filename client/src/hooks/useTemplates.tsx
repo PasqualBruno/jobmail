@@ -43,7 +43,6 @@ export const TemplateProvider = ({
     setIsLoadingTemplates(true);
     try {
       const response = await templateService.listAll();
-      console.log(response);
       setTemplates(response.data);
     } catch (error) {
       console.error("Erro ao carregar a lista de templates:", error);
