@@ -1,0 +1,23 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base}}/templates/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title":"Desenvolvedor Fullstack",
+    "content": "Gostaria de submeter meu perfil para análise em futuras oportunidades na equipe de tecnologia. Tenho sólida experiência com ecossistemas modernos de desenvolvimento e busco contribuir com projetos inovadores. Agradeço a atenção e coloco-me à disposição para uma conversa."
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

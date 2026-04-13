@@ -1,0 +1,58 @@
+.tiptap-container {
+  border: 1px solid #303030;
+  border-radius: 8px;
+  background: #141414;
+  height: 300px;
+  position: relative;
+}
+
+.tiptap-toolbar {
+  padding: 8px;
+  border-bottom: 1px solid #303030;
+  display: flex;
+  gap: 4px;
+}
+
+.tiptap-toolbar button {
+  background: transparent;
+  border: 1px solid #434343;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tiptap-toolbar button.is-active {
+  background: #177ddc;
+  border-color: #177ddc;
+}
+
+/* Área de edição */
+.tiptap-content .ProseMirror {
+  padding: 16px;
+  min-height: 150px;
+  outline: none;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tiptap-content .ProseMirror p {
+  margin-bottom: 8px;
+}
+
+.tiptap-char-count {
+  padding: 4px 12px;
+
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  background-color: #1a1a1a;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.tiptap-container:focus-within {
+  border-color: #177ddc;
+}

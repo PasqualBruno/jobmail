@@ -1,0 +1,12 @@
+.template-page-container {
+    position:relative;   
+}
+
+.new-template-button {
+    position: absolute;
+    right: 20px;
+    bottom: 80px;
+    border-radius: 50%;
+    height: 50px;
+
+}

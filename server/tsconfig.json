@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
     "moduleResolution": "NodeNext",
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "prisma.config.ts"],
   "exclude": ["node_modules"]
 }

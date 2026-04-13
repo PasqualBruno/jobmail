@@ -1,13 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html,
 body,
 #root {
   height: 100%;
-  margin: 0;
-  padding: 0;
   background-color: #000000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .root-layout {
   min-height: 100dvh;
   background-color: #000000;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }

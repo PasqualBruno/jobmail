@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 interface TokenPayload {
   id: string;
@@ -9,33 +8,42 @@ interface TokenPayload {
   exp: number;
 }
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const authHeader = req.headers.authorization;
 
-
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token não fornecido' });
+    return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  const parts = authHeader.split(' ');
+  const parts = authHeader.split(" ");
 
   if (parts.length !== 2) {
-    return res.status(401).json({ error: 'Erro no formato do token' });
+    return res.status(401).json({ error: "Erro no formato do token" });
   }
 
   const [scheme, token] = parts;
 
   if (!/^Bearer$/i.test(scheme)) {
-    return res.status(401).json({ error: 'Token malformado' });
+    return res.status(401).json({ error: "Token malformado" });
   }
 
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
-    (req as any).userId = decoded.id;
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string,
+    ) as TokenPayload;
+
+    req.user = {
+      id: decoded.id,
+      email: decoded.email,
+    };
 
     return next();
   } catch (err) {
-    return res.status(401).json({ error: 'Token inválido ou expirado' });
+    return res.status(401).json({ error: "Token inválido ou expirado" });
   }
 };

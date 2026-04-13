@@ -1,4 +1,4 @@
-import { ConfigProvider, Layout, theme } from "antd";
+import { ConfigProvider, Layout, theme, App as AntdApp } from "antd";
 import {
   BrowserRouter,
   Navigate,
@@ -39,39 +39,41 @@ export default function App() {
         },
       }}
     >
-      <Layout className="root-layout">
-        <BrowserRouter>
-          <Routes>
-            <Route element={<PublicRoute />}>
-              <Route path="/" element={<Login />} />
-              <Route path="/auth-success" element={<AuthSuccess />} />
-            </Route>
-
-            <Route element={<PrivateRoute />}>
-              <Route element={<MainLayout />}>
-                {menuItems?.map((item) => {
-                  if (
-                    item &&
-                    "key" in item &&
-                    !("type" in item && item.type === "divider")
-                  ) {
-                    if (item.key === "/logout") return null;
-
-                    return (
-                      <Route
-                        key={item.key?.toString()}
-                        path={item.key?.toString()}
-                        element={<div>{item.label}</div>}
-                      />
-                    );
-                  }
-                  return null;
-                })}
+      <AntdApp>
+        <Layout className="root-layout" style={{ minHeight: "100vh" }}>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<PublicRoute />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/auth-success" element={<AuthSuccess />} />
               </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Layout>
+
+              <Route element={<PrivateRoute />}>
+                <Route element={<MainLayout />}>
+                  {menuItems?.map((item) => {
+                    if (
+                      item &&
+                      "key" in item &&
+                      !("type" in item && item.type === "divider")
+                    ) {
+                      if (item.key === "/logout") return null;
+
+                      return (
+                        <Route
+                          key={item.key?.toString()}
+                          path={item.key?.toString()}
+                          element={item.component}
+                        />
+                      );
+                    }
+                    return null;
+                  })}
+                </Route>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Layout>
+      </AntdApp>
     </ConfigProvider>
   );
 }
